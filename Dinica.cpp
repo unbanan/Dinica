@@ -13,8 +13,6 @@
 */
 
 #include <bits/stdc++.h>
-#define ll int64_t
-#define int ll
 #define sz(x) int32_t(x.size())
 
 using namespace std;
@@ -26,7 +24,7 @@ private :
 public :
 
 
-    const int INF = 2e18 + 7;
+    const long long INF = 2e18 + 7;
 
     class Edge {
     public :
@@ -76,7 +74,7 @@ public :
         if (num == 0) {
             return false;
         }
-        int d[estuary + 1];
+        long long d[estuary + 1];
         int pr[estuary + 1];
 
         fill(d , d + estuary + 1 , INF);
