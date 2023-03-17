@@ -20,20 +20,20 @@ using namespace std;
 
 class Dinica {
 private :
-    int source , estuary;
+    int64_t source , estuary;
 public :
 
 
-    const long long INF = 2e18 + 7;
+    const int64_t INF = 2e18 + 7;
 
     class Edge {
     public :
-        long long from = 0;
-        long long to = 0;
-        long long cap = 0;
-        long long flow = 0;
-        long long cost = 0;
-        explicit Edge(long long cap = 0 , long long from = 0 , long long to = 0 , long long flow = 0 , long long cost = 0) {
+        int64_t from = 0;
+        int64_t to = 0;
+        int64_t cap = 0;
+        int64_t flow = 0;
+        int64_t cost = 0;
+        explicit Edge(int64_t cap = 0 , int64_t from = 0 , int64_t to = 0 , int64_t flow = 0 , int64_t cost = 0) {
             this -> cap = cap;
             this -> from = from;
             this -> to = to;
@@ -43,13 +43,13 @@ public :
     };
 
 
-    vector < vector < int > > g;
+    vector < vector < int64_t > > g;
     vector < Edge > e;
-    vector < int > point;
-    vector < int > lvl;
+    vector < int64_t > point64_t;
+    vector < int64_t > lvl;
 
 
-    void AddEdge(long long from , long long to , long long cap , long long flow , long long cost) {
+    void AddEdge(int64_t from , int64_t to , int64_t cap , int64_t flow , int64_t cost) {
         g[from].push_back(sz(e));
         e.emplace_back(cap , from , to , flow , cost);
         g[to].push_back(sz(e));
@@ -57,25 +57,25 @@ public :
     }
 
 
-    explicit Dinica(int siz = 1) {
+    explicit Dinica(int64_t siz = 1) {
         lvl.resize(siz);
-        point.resize(siz);
+        point64_t.resize(siz);
         g.resize(siz);
         this -> estuary = siz - 1;
         this -> source = 0;
     }
 
 
-    int ans = 0;
-    int num = 0;
+    int64_t ans = 0;
+    int64_t num = 0;
 
 
     bool Ford() {
         if (num == 0) {
             return false;
         }
-        long long d[estuary + 1];
-        int pr[estuary + 1];
+        int64_t d[estuary + 1];
+        int64_t pr[estuary + 1];
 
         fill(d , d + estuary + 1 , INF);
         fill(pr , pr + estuary + 1 , 0);
@@ -99,8 +99,8 @@ public :
             return false;
         }
 
-        int id = estuary;
-        int cnt = num;
+        int64_t id = estuary;
+        int64_t cnt = num;
 
         while (id != 0) {
             cnt = min({ cnt , e[pr[id]].cap - e[pr[id]].flow });
@@ -120,17 +120,17 @@ public :
 
     }
 
-    long long Solve(int cnt) {
+    int64_t Solve(int64_t cnt) {
         num = cnt;
         while (Ford());
         return ans;
     }
 
-    [[nodiscard]] int GetSource() const {
+    [[nodiscard]] int64_t GetSource() const {
         return this -> source;
     }
 
-    [[nodiscard]] int GetEstuary() const {
+    [[nodiscard]] int64_t GetEstuary() const {
         return this -> estuary;
     }
 
@@ -141,13 +141,13 @@ int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-    int n , k;
+    int64_t n , k;
     cin >> n >> k;
 
-    pair < int , int > boat[n + 1];
+    pair < int64_t , int64_t > boat[n + 1];
     Dinica D(1000);
     for (int i = 1; i <= n; i++) {
-        int s , c;
+        int64_t s , c;
         cin >> s >> c;
         boat[i] = {s , c};
     }
@@ -158,10 +158,10 @@ int32_t main() {
     }
 
     for (int i = 1; i <= k; i++) {
-        int num;
+        int64_t num;
         cin >> num;
         for (int j = 1; j <= num; j++){
-            int x;
+            int64_t x;
             cin >> x;
             D.AddEdge(i + n , x , 1LL , 0LL , boat[x].second);
         }
@@ -171,7 +171,7 @@ int32_t main() {
         D.AddEdge(i , D.GetEstuary() , boat[i].first , 0LL , 0LL);
     }
 
-    int l = D.Solve(k);
+    int64_t l = D.Solve(k);
     if (D.num != 0) {
         cout << -1;
     } else {
